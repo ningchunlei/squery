@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="1.0" xmlns:m="http://ant.apache.org/ivy/maven">
+	<info organisation="org.xz"
+		module="squery"
+		revision="1.0"
+		status="release"
+		publication="20110701111407"
+	>
+		<description homepage="" />
+	</info>
+	<configurations>
+		<conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
+		<conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies"/>
+		<conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
+		<conf name="provided" visibility="public" description="this is much like compile, but indicates you expect the JDK or a container to provide it. It is only available on the compilation classpath, and is not transitive."/>
+		<conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
+		<conf name="test" visibility="private" description="this scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases." extends="runtime"/>
+		<conf name="system" visibility="public" description="this scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository."/>
+		<conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
+		<conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
+		<conf name="optional" visibility="public" description="contains all optional dependencies"/>
+	</configurations>
+	<publications>
+		<artifact name="squery" type="jar" ext="jar" conf="master"/>
+	</publications>
+	<dependencies>
+		<dependency org="org.springframework" name="spring-beans" rev="3.0.5.RELEASE" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-beans" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="org.springframework" name="spring-context" rev="3.0.5.RELEASE" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-context" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="org.springframework" name="spring-context-support" rev="3.0.5.RELEASE" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-context-support" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="org.springframework" name="spring-aspects" rev="3.0.5.RELEASE" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-aspects" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="org.springframework" name="spring-web" rev="3.0.5.RELEASE" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-web" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="log4j" name="log4j" rev="1.2.16" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="log4j" type="bundle" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="ant" name="ant" rev="1.7.0" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)"/>
+		<dependency org="commons-logging" name="commons-logging" rev="1.1.1" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="commons-logging" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="commons-lang" name="commons-lang" rev="2.5" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="commons-lang" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="log4j" name="log4j" rev="1.2.16" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="log4j" type="bundle" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.5.5" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="jackson-mapper-asl" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="jgroups" name="jgroups" rev="2.11.1.Final" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="jgroups" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="apache-httpclient" name="commons-httpclient" rev="3.1" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="commons-httpclient" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="com.mysql" name="mysql-connector-java" rev="3.1.12" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)"/>
+		<dependency org="org.springframework" name="spring-dao" rev="2.0.8" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-dao" type="jar" ext="jar" conf=""/>
+		</dependency>
+		<dependency org="org.springframework" name="spring-jdbc" rev="3.0.3.RELEASE" force="true" conf="compile->compile(*),master(*);runtime->runtime(*)">
+			<artifact name="spring-jdbc" type="jar" ext="jar" conf=""/>
+		</dependency>
+	</dependencies>
+</ivy-module>

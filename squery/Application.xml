@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="true">
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath*:jdbc.properties"/>
+	</bean>
+	<bean id="dataSource01" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.mysql01.driverClassName}"/>
+		<property name="url" value="${jdbc.mysql01.url}"/>
+		<property name="username" value="${jdbc.mysql01.username}"/>
+		<property name="password" value="${jdbc.mysql01.password}"/>
+		<property name="maxActive" value="${jdbc.mysql01.maxActive}"/>
+		<property name="maxIdle" value="${jdbc.mysql01.maxIdle}"/>
+		<property name="maxWait" value="${jdbc.mysql01.maxWait}"/>
+		<property name="validationQuery" value="${jdbc.mysql01.validationQuery}"/>
+		<property name="defaultAutoCommit" value="${jdbc.mysql01.defaultAutoCommit}"/>
+		<property name="testWhileIdle" value="${jdbc.mysql01.testWhileIdle}"/>
+		<property name="logAbandoned" value="${jdbc.mysql01.logAbandoned}"/>
+		<property name="removeAbandoned" value="${jdbc.mysql01.removeAbandoned}"/>
+		<property name="removeAbandonedTimeout" value="${jdbc.mysql01.removeAbandonedTimeout}"/>
+	</bean>
+	
+	<bean class="org.squery.util.DefaultSourceFactory" >
+		<property name="ds">
+			<map>
+				<entry key="read_1" value-ref="dataSource01"></entry>
+				<entry key="write_1" value-ref="dataSource01"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean class="org.squery.util.SQueryBeanFactory" factory-method="getFactory" lazy-init="false"/> 
+	
+	<bean id="dao" class="org.squery.test.Dao">
+	</bean>
+</beans>

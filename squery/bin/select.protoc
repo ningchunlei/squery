@@ -1,0 +1,72 @@
+package select;
+
+option java_package = "org.squery.index";
+option java_outer_classname = "SelectData";
+
+message SelectIndex {
+  enum SelectType {
+    PAGE = 0;
+    DEFAULT = 1;
+  }
+  
+  enum DataType {
+  	INTEGER = 0;
+  	LONG = 1;
+  	FLOAT = 2;
+  	DOUBLE = 3;
+  	DATE = 4;
+  	STRING = 5;
+  }
+  
+  enum SQLType {
+  	SELECT = 0;
+  	UPDATE = 1;
+  	DELETE = 2;
+  	INSERT = 3;
+  }
+  
+  message Data{
+  	required string table = 1;
+  	required string column = 2;
+  	required string value = 3;
+  	required DataType type = 4;
+  	optional int32 updating = 5;
+  }
+  
+  message SelectSQL{
+  	required string key = 1;
+  	required string sql = 2;
+  	required SelectType type = 3;
+  	required int32 pnum = 4;
+  
+  	repeated string select = 5;
+  	repeated Data update = 6;
+  	repeated Data where = 7;	
+  }
+  
+  message WhereList{
+  		repeated Data where=1;
+  }
+  
+  message UpdateSQL{
+  	required string table = 1;
+  	repeated Data set = 2;
+  	repeated WhereList wlist = 3;		
+  }
+  
+  message InsertSQL{
+  	required string table = 1;
+  	repeated Data in=2;
+  }
+  
+  message DeleteSQL{
+  	required string table=1;
+  	repeated WhereList wlist = 2;
+  }
+  
+  required SQLType sqlType = 1;
+  optional SelectSQL slsql = 2;
+  optional UpdateSQL upsql = 3;
+  optional DeleteSQL dlsql = 4;
+  optional InsertSQL insql = 5;  
+}

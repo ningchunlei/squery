@@ -1,0 +1,77 @@
+<project name="squery" default="dist"  basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="version" value="1.0"/>
+	<property name="module" value="squery" />
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="lib.dir" value="lib" />
+	<property name="dist.dir" value="dist" />
+	<property name="squery.jar" value="${module}-${version}.jar" />
+	<property name="pom.file" value="${module}.${version}.pom" />
+	<property name="scala.lib" value="D:\scala-2.8.1.final\lib" />
+	
+	<tstamp>
+    	<format property="timestamp" pattern="yyMMddHHmm" locale="en"/>
+	</tstamp>
+	
+	<target name="init">
+		<ivy:configure url="http://rop.ig.com:8081/nexus/content/repositories/ig-settings/ivysetttings.xml"/>
+			<ivy:convertpom pomFile="${pom.file}" ivyFile="ivy.xml"/> 
+		<ivy:retrieve/>
+		<property
+	      name="scala-library.jar"
+	      value="${scala.lib}/scala-library.jar"
+	       />
+	    <path id="build.classpath">
+	      <pathelement location="${scala-library.jar}"   />
+	      <fileset dir="${lib.dir}">
+	    				<exclude name="servlet-api*.jar" />
+	    				<exclude name="jsp-api*.jar" />
+	      </fileset>	
+	      <pathelement location="${build.dir}/classes"   />
+	    </path>
+	    <taskdef resource="scala/tools/ant/antlib.xml">
+	      <classpath>
+	        <pathelement location="${scala.lib}/scala-compiler.jar"   />
+	        <pathelement location="${scala-library.jar}"   />
+	      </classpath>
+	    </taskdef>
+	  </target>
+
+	<target name="clean" depends="init">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="prepare" depends="clean">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${build.dir}/classes" />
+	</target>
+
+	<target name="compile" depends="prepare">
+		<scalac srcdir="${src.dir}"
+		            destdir="${build.dir}/classes"
+		            classpathref="build.classpath">
+		      <include name="**/**/*.scala"   />
+		</scalac>
+		<javac srcdir="${src.dir}"
+				            destdir="${build.dir}/classes"
+				            classpathref="build.classpath">
+				      <include name="**/**/*.java"   />
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile">
+		<jar jarfile="${dist.dir}/${squery.jar}" basedir="${build.dir}/classes">
+     	</jar>
+ 	</target>
+	
+	<target name="install" depends="dist">
+		<exec executable="cmd" error="out.error" output="out.out" >
+		    <arg value="/c"/>
+		    <arg line="mvn deploy:deploy-file -Dfile=${basedir}\dist\${squery.jar} -DpomFile=${basedir}\${pom.file} -Durl=${mvn.serverUrl} -DrepositoryId=${mvn.serverId}"/>
+		</exec>
+		<echo>install finish</echo>
+	</target>
+	
+
+</project>
